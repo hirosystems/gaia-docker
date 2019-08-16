@@ -1,0 +1,38 @@
+# gaia-admin.service
+[Unit]
+Description=Gaia Admin Service
+Requires=docker.service
+Requires=create_docker_network.service
+Requires=clone-repo.service
+After=docker.service
+After=create_docker_network.service
+After=clone-repo.service
+
+[Service]
+WorkingDirectory=/gaia
+EnvironmentFile=/gaia/gaia.env
+TimeoutStartSec=0
+Restart=always
+RemainAfterExit=yes
+RestartSec=5
+ExecStartPre=/bin/bash -x /gaia/scripts/update_configs.sh
+ExecStartPre=-/usr/bin/docker stop gaia-admin
+ExecStartPre=-/usr/bin/docker pull ${ADMIN_IMAGE}
+ExecStart=/usr/bin/docker run \
+  --net=gaia \
+  -m 128m \
+  --oom-kill-disable \
+  -p 8009 \
+  -v /gaia/admin-config:/src/admin/etc \
+  -v /gaia/hub-config:/tmp/hub-config \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -e CONFIG_PATH="/src/admin/etc/config.json" \
+  --name gaia-admin \
+  ${ADMIN_IMAGE}
+
+ExecStop=-/usr/bin/docker stop gaia-admin
+ExecStopPost=-/usr/bin/docker rm -f gaia-admin
+ExecReload=-/usr/bin/docker restart gaia-admin
+
+[Install]
+WantedBy=multi-user.target

@@ -7,7 +7,7 @@ fi
 
 domains=${DOMAIN}
 rsa_key_size=4096
-root="/gaia/docker"
+root="/gaia"
 data_path="${root}/nginx/certbot"
 webroot="/usr/share/nginx/html/certbot"
 staging=${STAGING} # Set to 1 if you're testing your setup to avoid hitting request limits

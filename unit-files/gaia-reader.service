@@ -1,0 +1,37 @@
+# gaia-reader.service
+[Unit]
+Description=Gaia Reader Service
+Requires=docker.service
+Requires=create_docker_network.service
+Requires=clone-repo.service
+After=docker.service
+After=create_docker_network.service
+After=clone-repo.service
+
+[Service]
+WorkingDirectory=/gaia
+EnvironmentFile=/gaia/gaia.env
+TimeoutStartSec=0
+Restart=always
+RemainAfterExit=yes
+RestartSec=5
+ExecStartPre=/bin/bash -x /gaia/scripts/update_configs.sh
+ExecStartPre=-/usr/bin/docker stop gaia-reader
+ExecStartPre=-/usr/bin/docker pull ${READER_IMAGE}
+ExecStart=/usr/bin/docker run \
+  --net=gaia \
+  -m 128m \
+  --oom-kill-disable \
+  -v "/gaia/reader-config:/src/reader/etc:ro" \
+  -v ""${LOCAL_DISK}:${GAIA_DISK_STORAGE_ROOT_DIR}"
+  -e CONFIG_PATH="/src/reader/etc/config.json"
+  -e GAIA_DISK_STORAGE_ROOT_DIR="${GAIA_DISK_STORAGE_ROOT_DIR}"
+  --name gaia-reader \
+  ${READER_IMAGE}
+
+ExecStop=-/usr/bin/docker stop gaia-reader
+ExecStopPost=-/usr/bin/docker rm -f gaia-reader
+ExecReload=-/usr/bin/docker restart gaia-reader
+
+[Install]
+WantedBy=multi-user.target

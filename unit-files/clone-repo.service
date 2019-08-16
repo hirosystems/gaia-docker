@@ -1,0 +1,16 @@
+# clone-repo.service
+[Unit]
+Description=Clone Gaia Repo
+ConditionPathExists=!/gaia
+Before=storage.mount
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/git clone -b master --single-branch https://github.com/blockstackpbc/gaia-docker /gaia
+
+[Install]
+WantedBy=multi-user.target
+
+
+# if repo exists locally, only pull

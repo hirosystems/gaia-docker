@@ -4,7 +4,7 @@
 
 domains=${DOMAIN}
 rsa_key_size=4096
-root="/gaia/docker"
+root="/gaia"
 data_path="${root}/nginx/certbot"
 webroot="/usr/share/nginx/html/certbot"
 staging=${STAGING} # Set to 1 if you're testing your setup to avoid hitting request limits
@@ -36,7 +36,7 @@ COUNT=5
 SLEEP=10
 INCR=10
 for i in $(seq "$COUNT"); do
-  /usr/bin/docker ps | grep docker_certbot_1 > /dev/null 2>&1
+  /usr/bin/docker ps | grep certbot > /dev/null 2>&1
   RETURN=$?
   if [[ "$RETURN" -eq "0" ]]; then
     break

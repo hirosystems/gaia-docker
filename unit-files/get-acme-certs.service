@@ -1,0 +1,15 @@
+# get-acme-certs.service
+[Unit]
+Description=Install LetsEncrypt Certs
+Requires=gaia-hub.service
+[Service]
+Type=oneshot
+WorkingDirectory=/gaia
+EnvironmentFile=/etc/environment
+EnvironmentFile=/gaia/gaia.env
+
+RemainAfterExit=yes
+ExecStart=/bin/bash -x /gaia/scripts/letsencrypt.sh
+
+[Install]
+WantedBy=multi-user.target

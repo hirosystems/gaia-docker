@@ -168,7 +168,7 @@ The main points in this file are:
     - docker-tcp.socket
         - enables docker TCP socket
     - gaia-docker-storage.mount
-        - mounts the /dev/xvdf disk at `/gaia/docker/storage`
+        - mounts the /dev/xvdf disk at `/storage`
         - only active in the `gaia-ebs.ign` build
     - install-docker-compose.service
         - determines the latest release of `docker-compose` and installs it to `/opt/bin/docker-compose`
@@ -176,11 +176,11 @@ The main points in this file are:
         - pulls the master branch to `/gaia`
     - gaia-hub.service
         - starts the gaia-hub containers via docker-compose
-        - calls the script `/gaia/docker/nginx/certbot/letsencrypt.sh`
+        - calls the script `/gaia/nginx/certbot/letsencrypt.sh`
             - script will attempt to retrieve/validate SSL certs for domain from letsencrypt
     - get-acme-certs.service
         - creates production certs once DNS is resolving
-        - calls the script `/gaia/docker/nginx/certbot/letsencrypt.sh`
+        - calls the script `/gaia/nginx/certbot/letsencrypt.sh`
         - this service is designed to be run manually, and should only need to run once
     - check_dns.service
         - retrieves current external IP address of the host
@@ -189,7 +189,7 @@ The main points in this file are:
         - timer executes every 60s, executes the check_dns service
     - letsencrypt_init.service
         - since nginx will not start without an ssl cert, this script is required at first boot
-        - downloads all related ssl files defined in `/gaia/docker/nginx/conf.d/nginx-ssl.conf`
+        - downloads all related ssl files defined in `/gaia/nginx/conf.d/nginx-ssl.conf`
         - uses certbot container to create an initial, temporary SSL key for `localhost`
     - letsencrypt_init.timer
         - timer executes every 60s, executes the letsencrypt_init service

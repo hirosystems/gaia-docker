@@ -19,9 +19,9 @@ echo -e "### Stopping letsencrypt_init timer ..."
 ###
 
 ### remove any installed certs
-if [ -e "/gaia/docker/nginx/certbot/conf" ]; then
-  echo -e "### Removing Certs from -> /gaia/docker/nginx/certbot/conf/* ..."
-  /usr/bin/rm -rf /gaia/docker/nginx/certbot/conf/*
+if [ -e "/gaia/nginx/certbot/conf" ]; then
+  echo -e "### Removing Certs from -> /gaia/nginx/certbot/conf/* ..."
+  /usr/bin/rm -rf /gaia/nginx/certbot/conf/*
 fi
 
 ### enable letsencrypt init to run again
@@ -63,9 +63,9 @@ fi
 
 echo -e "### Removing any containers created by docker-compose ..."
 /opt/bin/docker-compose \
-  --project-directory /gaia/docker \
-  -f /gaia/docker/docker-compose.yaml \
-  -f /gaia/docker/docker-compose.certbot.yaml \
+  --project-directory /gaia \
+  -f /gaia/docker-compose.yaml \
+  -f /gaia/docker-compose.certbot.yaml \
   rm -v
 
 # # remove any other containers
