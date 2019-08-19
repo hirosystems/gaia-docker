@@ -4,15 +4,15 @@
 ### Stop Services
 ###
 echo -e "### Stopping gaia-hub service ..."
-/usr/bin/systemctl stop gaia-hub.service
-
-echo -e "### Stopping check_dns timer ..."
-/usr/bin/systemctl stop check_dns.service
-/usr/bin/systemctl stop check_dns.timer
-
-echo -e "### Stopping letsencrypt_init timer ..."
-/usr/bin/systemctl stop letsencrypt_init.service
-/usr/bin/systemctl stop letsencrypt_init.timer
+/usr/bin/systemctl stop gaia
+/usr/bin/systemctl stop certbot
+/usr/bin/systemctl stop create-docker-network
+/usr/bin/systemctl stop clone-repo
+/usr/bin/systemctl stop check-dns.timer
+/usr/bin/systemctl stop check-dns.service
+/usr/bin/systemctl stop letsencrypt-init.timer
+/usr/bin/systemctl stop letsencrypt-init.service
+/usr/bin/systemctl stop letsencrypt
 
 ###
 ### Cleanup the system
@@ -27,18 +27,18 @@ fi
 ### enable letsencrypt init to run again
 if [ -e "/tmp/letsencrypt.init" ]; then
   echo -e "### Removing letsencrypt-init file -> /tmp/letsencrypt.init ..."
-  /usr/bin/rm /tmp/letsencrypt.init
+  /usr/bin/rm -f /tmp/letsencrypt.init
 fi
 
 ### reset the check_dns timer/service
 if [ -e "/tmp/dns_checked" ]; then
   echo -e "### Removing check_dns file -> /tmp/dns_checked ..."
-  /usr/bin/rm /tmp/dns_checked
+  /usr/bin/rm -f /tmp/dns_checked
 fi
 
 if [ -e "/tmp/ssl_created" ]; then
   echo -e "### Removing check_dns file -> /tmp/ssl_created ..."
-  /usr/bin/rm /tmp/ssl_created
+  /usr/bin/rm -f /tmp/ssl_created
 fi
 
 ### remove any remaning docker volumes
@@ -61,30 +61,23 @@ if [ `/usr/bin/docker images | /usr/bin/grep "<none>" | /usr/bin/awk '{print $3}
     )
 fi
 
-echo -e "### Removing any containers created by docker-compose ..."
-/opt/bin/docker-compose \
-  --project-directory /gaia \
-  -f /gaia/docker-compose.yaml \
-  -f /gaia/docker-compose.certbot.yaml \
-  rm -v
+# remove any other containers
+if [ `docker ps -aq | wc -l` -gt 0 ]; then
+  /usr/bin/docker rm -v $(/usr/bin/docker ps -aq)
+fi
 
-# # remove any other containers
-# if [ `docker ps -aq | wc -l` -gt 0 ]; then
-#   /usr/bin/docker rm -v $(/usr/bin/docker ps -aq)
-# fi
-#
-# if [ `/usr/bin/docker images -q | wc -l` -gt 0 ]; then
-#   echo -e "Removing all downloaded docker images"
-#   /usr/bin/docker rmi $(/usr/bin/docker images -q)
-# fi
+if [ `/usr/bin/docker images -q | wc -l` -gt 0 ]; then
+  echo -e "Removing all downloaded docker images"
+  /usr/bin/docker rmi $(/usr/bin/docker images -q)
+fi
 
 ### remove docker networks
-if [ `/usr/bin/docker network ls  | /usr/bin/grep docker_gaia | /usr/bin/awk '{print $1}' | wc -l` -gt 0 ]; then
-  echo -e "### Deleting docker_gaia networks ... "
+if [ `/usr/bin/docker network ls  | /usr/bin/grep gaia | /usr/bin/awk '{print $1}' | wc -l` -gt 0 ]; then
+  echo -e "### Deleting gaia networks ... "
   /usr/bin/docker network rm \
     $( \
       /usr/bin/docker network ls  | \
-      /usr/bin/grep docker_gaia | \
+      /usr/bin/grep gaia | \
       /usr/bin/awk '{print $1}' \
     )
 fi
@@ -99,13 +92,13 @@ fi
 ###
 ### Start Services
 ###
-echo -e "### Starting gaia-hub service ..."
-/usr/bin/systemctl start gaia-hub.service
-
-echo -e "### Starting check_dns timer ..."
-/usr/bin/systemctl start check_dns.timer
-
-echo -e "### Starting letsencrypt_init timer ..."
-/usr/bin/systemctl start letsencrypt_init.timer
-
-echo -e "### Done..."
+# echo -e "### Starting gaia-hub service ..."
+# /usr/bin/systemctl start gaia-hub.service
+#
+# echo -e "### Starting check_dns timer ..."
+# /usr/bin/systemctl start check_dns.timer
+#
+# echo -e "### Starting letsencrypt_init timer ..."
+# /usr/bin/systemctl start letsencrypt_init.timer
+#
+# echo -e "### Done..."

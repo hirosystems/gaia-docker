@@ -1,16 +1,15 @@
 # clone-repo.service
 [Unit]
 Description=Clone Gaia Repo
-ConditionPathExists=!/gaia
-Before=storage.mount
+Before=gaia.service
+Before=nginx.service
+Before=certbot.service
 
 [Service]
-Type=oneshot
+Type=simple
+WorkingDirectory=/gaia
 RemainAfterExit=yes
-ExecStart=/usr/bin/git clone -b master --single-branch https://github.com/blockstackpbc/gaia-docker /gaia
+ExecStart=/bin/sh -c "if cd /gaia; then /usr/bin/git pull; else /usr/bin/git clone -b master --single-branch https://github.com/blockstackpbc/gaia-docker /gaia; fi"
 
 [Install]
 WantedBy=multi-user.target
-
-
-# if repo exists locally, only pull

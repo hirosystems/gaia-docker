@@ -1,35 +1,28 @@
+# certbot.service
 [Unit]
 Description=LetsEncrypt Certbot Service
-Requires=docker.service
-Requires=create_docker_network.service
-Requires=clone-repo.service
-Requires=nginx.service
-After=docker.service
-After=create_docker_network.service
-After=clone-repo.service
-After=nginx.service
+Requires=gaia.service
+Requires=letsencrypt.service
+After=gaia.service
+After=letsencrypt.service
 
 [Service]
-WorkingDirectory=/gaia
+Type=oneshot
+RemainAfterExit=no
 EnvironmentFile=/gaia/gaia.env
-TimeoutStartSec=0
-Restart=always
-RemainAfterExit=yes
-RestartSec=5
-ExecStartPre=-/usr/bin/docker stop certbot
 ExecStartPre=-/usr/bin/docker pull ${CERTBOT_IMAGE}
 ExecStart=/usr/bin/docker run \
   --net=gaia \
-  -m 128m \
+  -m 64m \
   --oom-kill-disable \
-  -v "${LOCAL_CERTBOT_CONF}:${REMOTE_CERTBOT_CONF}"
-  -v "${LOCAL_CERTBOT_WWW}:${REMOTE_CERTBOT_WWW}"
-  --name certbot \
+  -v ${LOCAL_CERTBOT_CONF}:${REMOTE_CERTBOT_CONF} \
+  -v ${LOCAL_CERTBOT_WWW}:${REMOTE_CERTBOT_WWW} \
+  -v /var/run/docker.sock:/var/run/docker.sock \
   ${CERTBOT_IMAGE} \
-/bin/sh -c "trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;"
+renew
+ExecStart=/usr/bin/docker exec nginx sh -c "nginx -s reload"
 
 ExecStop=-/usr/bin/docker stop certbot
-ExecStopPost=-/usr/bin/docker rm -f certbot
 ExecReload=-/usr/bin/docker restart certbot
 
 [Install]

@@ -13,7 +13,6 @@ if [ ! -f "/tmp/dns_checked" ]; then
     RECORD=`$DIG $OPTS $DOMAIN`
     if [[ "$RECORD" == "$PUBLIC_IPV4" ]]; then
       echo -e "[ $DOMAIN IN A $RECORD ] Found"
-      echo -e "    Setting up $DOMAIN certificates"
       touch /tmp/dns_checked
       exit 0
     else
