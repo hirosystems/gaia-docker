@@ -7,9 +7,8 @@ Before=certbot.service
 
 [Service]
 Type=simple
-WorkingDirectory=/gaia
 RemainAfterExit=yes
-ExecStart=/bin/sh -c "if cd /gaia; then /usr/bin/git pull; else /usr/bin/git clone -b master --single-branch https://github.com/blockstackpbc/gaia-docker /gaia; fi"
+ExecStart=/bin/sh -c "if [ -d /gaia ]; then /usr/bin/git -C /gaia pull; else /usr/bin/git clone -b master --single-branch https://github.com/blockstackpbc/gaia-docker /gaia; fi"
 
 [Install]
 WantedBy=multi-user.target

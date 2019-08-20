@@ -7,6 +7,10 @@ RSA_KEYSIZE=4096
 DATA_PATH="/gaia/nginx/certbot"
 CERT_PATH="$DATA_PATH/conf/live/${DOMAIN}"
 
+if [ -f /tmp/letsencrypt.init ]; then
+  echo -e "Already executed"
+  exit 0
+fi
 
 if [ ! -d "${DATA_PATH}/conf" ]; then
   echo -e "### Creating conf dir: ${DATA_PATH}/conf ... "
@@ -61,7 +65,7 @@ if [ -e "${DATA_PATH}" ]; then
          -f ${DATA_PATH}/conf/ssl-dhparams.pem \
     ]; then
       # /usr/bin/systemctl restart nginx
-      /usr/bin/docker exec nginx sh -c "nginx -s reload"
+      # /usr/bin/docker exec nginx sh -c "nginx -s reload"
       touch /tmp/letsencrypt.init
       exit 0
     fi

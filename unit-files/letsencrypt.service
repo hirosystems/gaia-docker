@@ -6,7 +6,11 @@ ConditionPathExists=/tmp/dns_checked
 ConditionPathExists=!/tmp/ssl_created
 ConditionFileIsExecutable=/gaia/scripts/letsencrypt.sh
 Requires=check-dns.service
+Requires=letsencrypt-init.service
+Requires=nginx.service
 After=check-dns.service
+After=letsencrypt-init.service
+After=nginx.service
 
 [Service]
 Type=oneshot
