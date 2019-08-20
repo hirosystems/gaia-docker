@@ -271,23 +271,6 @@
 				"group": {
 					"name": "root"
 				},
-				"path": "/etc/systemd/system/gaia-reader.service",
-				"user": {
-					"name": "root"
-				},
-				"contents": {
-					"source": "https://raw.githubusercontent.com/blockstackpbc/gaia-docker/master/unit-files/gaia-reader.service",
-					"verification": {
-						"hash": "sha512-f63722b3b25262735671d8a1f814b7868b78d135011b4931dd6a1baf61bbf6644a58218abeb58b6bb439b91254a3274253c3415a91afe0d9cd2dcce213798240"
-					}
-				},
-				"mode": 420
-			},
-			{
-				"filesystem": "root",
-				"group": {
-					"name": "root"
-				},
 				"path": "/etc/systemd/system/gaia-hub.service",
 				"user": {
 					"name": "root"
@@ -305,6 +288,23 @@
 				"group": {
 					"name": "root"
 				},
+				"path": "/etc/systemd/system/gaia-reader.service",
+				"user": {
+					"name": "root"
+				},
+				"contents": {
+					"source": "https://raw.githubusercontent.com/blockstackpbc/gaia-docker/master/unit-files/gaia-reader.service",
+					"verification": {
+						"hash": "sha512-f63722b3b25262735671d8a1f814b7868b78d135011b4931dd6a1baf61bbf6644a58218abeb58b6bb439b91254a3274253c3415a91afe0d9cd2dcce213798240"
+					}
+				},
+				"mode": 420
+			},
+			{
+				"filesystem": "root",
+				"group": {
+					"name": "root"
+				},
 				"path": "/etc/systemd/system/gaia.service",
 				"user": {
 					"name": "root"
@@ -312,7 +312,7 @@
 				"contents": {
 					"source": "https://raw.githubusercontent.com/blockstackpbc/gaia-docker/master/unit-files/gaia.service",
 					"verification": {
-						"hash": "sha512-cdd7b42ea0921ca5df068305271b2ef5ac05e01e0e48dfcf315f1fd5c8b97fdcf3dec897559ba64a879236464537c45787b0b67421f8f709344d5e00d8ca8894"
+						"hash": "sha512-d04d022d084d09ec23b5520463cfba91967186b8cbea29a9f7ecdaa95928121cee2ffd0cb7cae924ea0d4e81ee4cfe976e15b26d2ed8691c396255d7666ec593"
 					}
 				},
 				"mode": 420
@@ -363,7 +363,7 @@
 				"contents": {
 					"source": "https://raw.githubusercontent.com/blockstackpbc/gaia-docker/master/unit-files/letsencrypt.service",
 					"verification": {
-						"hash": "sha512-71450403f5977de9f7653605f8616d43d81abfe034da397307a699ef5b70cd066e4cdb5730ea306b146aa84ab52f6d19a598a5f6b9eb01f1c17a9ab7c4ea1996"
+						"hash": "sha512-bdb31692fca1d9124376bc9eb7abf6b76b6f99bc847ca25b97c364efd685d9c130d9f64374c8e26ff20b726e4215532e13c75054ff5ffc48c1547168311da60f"
 					}
 				},
 				"mode": 420
