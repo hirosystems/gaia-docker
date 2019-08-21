@@ -1,0 +1,1 @@
+# storage.mount\n[Unit]\nDescription=Mount Local Disk to /storage\n\n[Mount]\nWhat=/dev/xvdf\nWhere=/storage\nType=xfs\n[Install]\nWantedBy=local-fs.target\n

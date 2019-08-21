@@ -20,8 +20,8 @@ ExecStart=/usr/bin/docker run \
   -m 128m \
   --oom-kill-disable \
   -p 8008:3000 \
-  -v "/gaia/reader-config:/src/reader/etc:ro" \
-  -v "${LOCAL_DISK}:${GAIA_DISK_STORAGE_ROOT_DIR}" \
+  -v /gaia/reader-config:/src/reader/etc:ro \
+  -v ${LOCAL_DISK}:${GAIA_DISK_STORAGE_ROOT_DIR} \
   -e CONFIG_PATH="/src/reader/etc/config.json" \
   -e GAIA_DISK_STORAGE_ROOT_DIR="${GAIA_DISK_STORAGE_ROOT_DIR}" \
   --name gaia-reader \
