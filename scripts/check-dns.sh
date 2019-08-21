@@ -7,12 +7,13 @@ OPTS="A +short"
 COUNT=10
 SLEEP=10
 INCR=10
-
+echo $(date)
 if [ ! -f "/tmp/dns_checked" ]; then
   for i in $(seq "$COUNT"); do
     RECORD=`$DIG $OPTS $DOMAIN`
     if [[ "$RECORD" == "$PUBLIC_IPV4" ]]; then
       echo -e "[ $DOMAIN IN A $RECORD ] Found"
+      echo $(date)
       touch /tmp/dns_checked
       exit 0
     else
@@ -22,6 +23,7 @@ if [ ! -f "/tmp/dns_checked" ]; then
     fi
   done
   echo "Timed out. There was a problem verifying the DNS A record"
+  echo $(date)
   exit 1
 else
   exit 1
