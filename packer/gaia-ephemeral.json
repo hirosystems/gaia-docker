@@ -50,17 +50,10 @@
     }]
   }],
   "provisioners": [{
-    "type": "file",
-    "source": "../unit-files/",
-    "destination": "/tmp/"
-  },{
     "type": "shell",
     "execute_command": "sudo -S sh '{{ .Path }}'",
     "inline_shebang": "/bin/sh -e -x",
     "inline": [
-      "echo '** Moving Unit files ...'",
-      "mv /tmp/*.service /etc/systemd/system/",
-      "mv /tmp/*.timer /etc/systemd/system/",
       "echo '** Shreding sensitive data ...'",
       "shred -u /etc/ssh/*_key /etc/ssh/*_key.pub",
       "shred -u /home/core/.ssh/authorized_keys",

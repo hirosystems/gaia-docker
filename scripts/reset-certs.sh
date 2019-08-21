@@ -4,15 +4,16 @@
 ### Stop Services
 ###
 echo -e "### Stopping gaia-hub service ..."
-/usr/bin/systemctl stop gaia
-/usr/bin/systemctl stop certbot
-/usr/bin/systemctl stop create-docker-network
-/usr/bin/systemctl stop clone-repo
+/usr/bin/systemctl stop gaia.service
+/usr/bin/systemctl stop certbot.service
+/usr/bin/systemctl stop create-docker-network.service
+/usr/bin/systemctl stop clone-repo.service
 /usr/bin/systemctl stop check-dns.timer
 /usr/bin/systemctl stop check-dns.service
 /usr/bin/systemctl stop letsencrypt-init.timer
 /usr/bin/systemctl stop letsencrypt-init.service
-/usr/bin/systemctl stop letsencrypt
+/usr/bin/systemctl stop letsencrypt.service
+
 
 ###
 ### Cleanup the system
@@ -92,13 +93,28 @@ fi
 ###
 ### Start Services
 ###
-# echo -e "### Starting gaia-hub service ..."
-# /usr/bin/systemctl start gaia-hub.service
-#
-# echo -e "### Starting check_dns timer ..."
-# /usr/bin/systemctl start check_dns.timer
-#
-# echo -e "### Starting letsencrypt_init timer ..."
-# /usr/bin/systemctl start letsencrypt_init.timer
-#
-# echo -e "### Done..."
+echo -e "### Starting letsencrypt-init ..."
+/usr/bin/systemctl start letsencrypt-init.timer
+/usr/bin/systemctl start letsencrypt-init.service
+
+echo -e "### Starting create-docker-network ..."
+/usr/bin/systemctl start create-docker-network.service
+
+echo -e "### Starting check-dns ..."
+/usr/bin/systemctl start check-dns.timer
+/usr/bin/systemctl start check-dns.service
+
+echo -e "### Starting clone-repo ..."
+/usr/bin/systemctl start clone-repo.service
+
+echo -e "### Starting gaia ..."
+/usr/bin/systemctl start gaia.service
+
+echo -e "### Starting letsencrypt ..."
+/usr/bin/systemctl start letsencrypt.service
+
+echo -e "### Starting certbot ..."
+/usr/bin/systemctl start certbot.timer
+/usr/bin/systemctl start certbot.service
+
+echo -e "### Done..."

@@ -14,7 +14,7 @@ echo "Building gaia-hub-ephemeral"
 echo "    user_data_file: gaia-ephemeral.ign"
 echo "    version: $VERSION"
 echo "    json: gaia-ephemeral.json"
-packer build --var-file=vars.json --var "user_data_file=gaia-ephemeral.ign" --var "version=$VERSION" gaia-ephemeral.json
+packer build --var-file=vars.json --var "user_data_file=gaia-ephemeral.ign" --var "version=2.5.3"" gaia-ephemeral.json
 echo ""
 echo "Building gaia-hub-ebs"
 echo "    user_data_file: gaia-ebs.ign"

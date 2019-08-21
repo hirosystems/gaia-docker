@@ -27,7 +27,7 @@ function get_acme_certs () {
 
   echo "### Requesting Let's Encrypt certificate for $DOMAIN ..."
   if [[ $1 != "0" ]]; then
-    staging_arg="--staging";
+    STAGING_ARG="--staging";
   fi
   if [ -d ${CERT_PATH} ];then
     rm -rf ${CERT_PATH}
@@ -44,7 +44,7 @@ function get_acme_certs () {
   certonly \
     --webroot \
     -w $REMOTE_CERTBOT_WWW \
-    --staging \
+    ${STAGING_ARG} \
     -d $DOMAIN \
     --register-unsafely-without-email \
     --rsa-key-size $RSA_KEYSIZE \
@@ -110,4 +110,4 @@ for i in $(seq "$COUNT"); do
 done
 
 
-get_acme_certs $staging
+get_acme_certs $STAGING
