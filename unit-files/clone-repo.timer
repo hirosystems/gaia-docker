@@ -1,0 +1,14 @@
+# clone-repo.timer
+[Unit]
+Description=Clone gaia-docker repo  Timer
+
+[Timer]
+OnCalendar=*-*-* 00:00:00
+OnCalendar=*-*-* 04:00:00
+OnCalendar=*-*-* 08:00:00
+OnCalendar=*-*-* 12:00:00
+OnCalendar=*-*-* 16:00:00
+OnCalendar=*-*-* 20:00:00
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,1 @@
+# clone-repo.timer\n[Unit]\nDescription=Clone gaia-docker repo  Timer\n\n[Timer]\nOnCalendar=*-*-* 00:00:00\nOnCalendar=*-*-* 04:00:00\nOnCalendar=*-*-* 08:00:00\nOnCalendar=*-*-* 12:00:00\nOnCalendar=*-*-* 16:00:00\nOnCalendar=*-*-* 20:00:00\n\n[Install]\nWantedBy=timers.target\n

@@ -189,7 +189,12 @@
 			{
 				"enabled": true,
 				"name": "clone-repo.service",
-        "contents": "# clone-repo.service\n[Unit]\nDescription=Clone Gaia Repo\nBefore=gaia.service\nBefore=nginx.service\nBefore=certbot.service\n\n[Service]\nType=simple\nRemainAfterExit=yes\nExecStart=/bin/sh -c \"if [ -d /gaia ]; then /usr/bin/git -C /gaia pull; else /usr/bin/git clone -b master --single-branch https://github.com/blockstackpbc/gaia-docker /gaia; fi\"\nExecStart=/bin/cp -R /gaia/unit-files/* /etc/system/systemd\nExecStart=/usr/bin/systemctl daemon-reload\n[Install]\nWantedBy=multi-user.target\n"
+        "contents": "# clone-repo.service\n[Unit]\nDescription=Clone Gaia Repo\nBefore=gaia.service\nBefore=nginx.service\nBefore=certbot.service\n\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/bin/sh -c \"if [ -d /gaia ]; then /usr/bin/git -C /gaia pull; else /usr/bin/git clone -b master --single-branch https://github.com/blockstackpbc/gaia-docker /gaia; fi; /bin/cp -R /gaia/unit-files/* /etc/systemd/system/; /usr/bin/systemctl daemon-reload\"\n[Install]\nWantedBy=multi-user.target\n"
+			},
+			{
+				"enabled": true,
+				"name": "clone-repo.timer",
+        "contents": "# clone-repo.timer\n[Unit]\nDescription=Clone gaia-docker repo  Timer\n\n[Timer]\nOnCalendar=*-*-* 00:00:00\nOnCalendar=*-*-* 04:00:00\nOnCalendar=*-*-* 08:00:00\nOnCalendar=*-*-* 12:00:00\nOnCalendar=*-*-* 16:00:00\nOnCalendar=*-*-* 20:00:00\n\n[Install]\nWantedBy=timers.target\n"
 			},
 			{
 				"enabled": true,
