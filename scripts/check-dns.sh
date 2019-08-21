@@ -16,7 +16,7 @@ if [ ! -f "/tmp/dns_checked" ]; then
       touch /tmp/dns_checked
       exit 0
     else
-      echo -e "Record doesn't match public IP. sleeping...."
+      echo -e "$DOMAIN Record doesn't match public IP. sleeping...."
       sleep $SLEEP
       SLEEP=$((SLEEP + INCR))
     fi
